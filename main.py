@@ -97,67 +97,70 @@ def recommend_movies():
 root = tk.Tk()
 root.title("Movie Search and Favorites")
 
+# Create and place the title label
+tk.Label(root, text="Movie Recommendation System", font=("Helvetica", 16)).grid(row=0, column=0, columnspan=2, pady=10)
+
 # Create and place the input fields and labels for search
-tk.Label(root, text="Title:").grid(row=0, column=0)
+tk.Label(root, text="Title:").grid(row=1, column=0, padx=20)
 title_entry = tk.Entry(root)
-title_entry.grid(row=0, column=1)
+title_entry.grid(row=1, column=1, padx=20)
 
-tk.Label(root, text="Genre:").grid(row=1, column=0)
+tk.Label(root, text="Genre:").grid(row=2, column=0, padx=20)
 genre_entry = tk.Entry(root)
-genre_entry.grid(row=1, column=1)
+genre_entry.grid(row=2, column=1, padx=20)
 
-tk.Label(root, text="Director:").grid(row=2, column=0)
+tk.Label(root, text="Director:").grid(row=3, column=0, padx=20)
 director_entry = tk.Entry(root)
-director_entry.grid(row=2, column=1)
+director_entry.grid(row=3, column=1, padx=20)
 
-tk.Label(root, text="Actor:").grid(row=3, column=0)
+tk.Label(root, text="Actor:").grid(row=4, column=0, padx=20)
 actor_entry = tk.Entry(root)
-actor_entry.grid(row=3, column=1)
+actor_entry.grid(row=4, column=1, padx=20)
 
-tk.Label(root, text="Year:").grid(row=4, column=0)
+tk.Label(root, text="Year:").grid(row=5, column=0, padx=20)
 year_entry = tk.Entry(root)
-year_entry.grid(row=4, column=1)
+year_entry.grid(row=5, column=1, padx=20)
 
-tk.Label(root, text="Duration:").grid(row=5, column=0)
+tk.Label(root, text="Duration:").grid(row=6, column=0, padx=20)
 duration_entry = tk.Entry(root)
-duration_entry.grid(row=5, column=1)
+duration_entry.grid(row=6, column=1, padx=20)
 
-tk.Label(root, text="Rating:").grid(row=6, column=0)
+tk.Label(root, text="Rating:").grid(row=7, column=0, padx=20)
 rating_entry = tk.Entry(root)
-rating_entry.grid(row=6, column=1)
+rating_entry.grid(row=7, column=1, padx=20)
 
 # Create and place the search button
 search_button = tk.Button(root, text="Search", command=search_movies)
-search_button.grid(row=7, column=0, columnspan=2)
+search_button.grid(row=8, column=0, columnspan=2, padx=20)
 
 # Create and place the text area for results
-result_text = tk.Text(root, height=5, width=200)
-result_text.grid(row=8, column=0, columnspan=2)
+result_text = tk.Text(root, height=5, width=100)
+result_text.grid(row=9, column=0, columnspan=2, padx=20)
 
 # Create and place the input field and label for adding to favorites
-tk.Label(root, text="Add/Remove from Favorites:").grid(row=9, column=0)
+tk.Label(root, text="Add/Remove from Favorites:").grid(row=10, column=0, padx=20)
 favorite_entry = tk.Entry(root)
-favorite_entry.grid(row=9, column=1)
+favorite_entry.grid(row=10, column=1, padx=20)
 
 # Create and place the add to favorites button
 add_button = tk.Button(root, text="Add", command=add_to_favorites)
-add_button.grid(row=10, column=0)
+add_button.grid(row=11, column=0, columnspan=2, padx=20)
 
 # Create and place the remove from favorites button
 remove_button = tk.Button(root, text="Remove", command=remove_from_favorites)
-remove_button.grid(row=10, column=1)
+remove_button.grid(row=12, column=0, columnspan=2, padx=20)
 
 # Create and place the text area for favorite movies
-favorite_text = tk.Text(root, height=5, width=200)
-favorite_text.grid(row=11, column=0, columnspan=2)
+favorite_text = tk.Text(root, height=5, width=100)
+favorite_text.grid(row=13, column=0, columnspan=2, padx=20)
 
 # Create and place the recommend button
 recommend_button = tk.Button(root, text="Recommend", command=recommend_movies)
-recommend_button.grid(row=12, column=0, columnspan=2)
+recommend_button.grid(row=14, column=0, columnspan=2, padx=20)
 
 # Create and place the text area for recommendations
-recommendation_text = tk.Text(root, height=10, width=200)
-recommendation_text.grid(row=13, column=0, columnspan=2)
+recommendation_text = tk.Text(root, height=10, width=100)
+recommendation_text.grid(row=15, column=0, columnspan=2, padx=20)
 
 # Run the main loop
 root.mainloop()
