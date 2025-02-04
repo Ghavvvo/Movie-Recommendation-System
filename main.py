@@ -77,6 +77,7 @@ def recommend_movies():
         else:
             recommendation_text.insert(tk.END, "No recommendations found.")
     except Exception as e:
+        print(e)
         messagebox.showerror("Error", str(e))
 
 # Create the main window
