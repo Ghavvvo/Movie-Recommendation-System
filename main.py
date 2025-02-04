@@ -111,7 +111,7 @@ search_button = tk.Button(root, text="Search", command=search_movies)
 search_button.grid(row=7, column=0, columnspan=2)
 
 # Create and place the text area for results
-result_text = tk.Text(root, height=10, width=50)
+result_text = tk.Text(root, height=10, width=100)
 result_text.grid(row=8, column=0, columnspan=2)
 
 # Create and place the input field and label for adding to favorites
@@ -124,7 +124,7 @@ add_button = tk.Button(root, text="Add", command=add_to_favorites)
 add_button.grid(row=10, column=0, columnspan=2)
 
 # Create and place the text area for favorite movies
-favorite_text = tk.Text(root, height=10, width=50)
+favorite_text = tk.Text(root, height=10, width=100)
 favorite_text.grid(row=11, column=0, columnspan=2)
 
 # Create and place the recommend button
@@ -132,7 +132,7 @@ recommend_button = tk.Button(root, text="Recommend", command=recommend_movies)
 recommend_button.grid(row=12, column=0, columnspan=2)
 
 # Create and place the text area for recommendations
-recommendation_text = tk.Text(root, height=10, width=50)
+recommendation_text = tk.Text(root, height=10, width=100)
 recommendation_text.grid(row=13, column=0, columnspan=2)
 
 # Run the main loop
