@@ -1030,7 +1030,7 @@ peliculas_por_titulo(Titulo, Peliculas) :-
 
 % Regla para encontrar películas que cumplan todas las condiciones opcionales
 peliculas_por_condiciones(Titulo, Genero, Director, Actor, Year, Duration, Rating, Peliculas) :-
-    findall(TituloP, (
+    findall([TituloP, GeneroP, DirectorP, ActorP, YearP, DurationP, RatingP], (
         movie(TituloP, GeneroP, DirectorP, ActorP, YearP, DurationP, RatingP),
         (Titulo == '' ; Titulo == TituloP),
         (Genero == '' ; Genero == GeneroP),
@@ -1041,7 +1041,6 @@ peliculas_por_condiciones(Titulo, Genero, Director, Actor, Year, Duration, Ratin
         (Rating == '' ; Rating == RatingP)
     ), Peliculas).
 
-
 % Dynamic predicate to store favorite movies
 :- dynamic favorite_movie/1.
 
@@ -1050,6 +1049,11 @@ add_to_favorites(Title) :-
     movie(Title, _, _, _, _, _, _),
     \+ favorite_movie(Title),
     assertz(favorite_movie(Title)).
+
+% Rule to remove a movie from favorites
+remove_from_favorites(Title) :-
+    favorite_movie(Title),
+    retract(favorite_movie(Title)).
 
 % Rule to get all favorite movies
 get_favorite_movies(FavoriteMovies) :-
@@ -1101,9 +1105,23 @@ recommend_movies_based_on_favorites(RecommendedMovies) :-
     extract_genres_from_favorites(Genres),
     extract_actors_from_favorites(Actors),
     extract_directors_from_favorites(Directors),
-    findall([Title, Genre, Year, Rating],
-            (movie(Title, Genre, Director, Actor, Year, _, Rating),
+    findall([Title, Genre, Director, Actor, Year, Duration, Rating],
+            (movie(Title, Genre, Director, Actor, Year, Duration, Rating),
              member(Genre, Genres),
              (member(Actor, Actors) ; member(Director, Directors)),
              \+ favorite_movie(Title)),
-            RecommendedMovies).
+            Movies),
+    sort_movies(Movies, RecommendedMovies).
+
+% Custom sorting predicate to sort by rating and year
+sort_movies(Movies, SortedMovies) :-
+    predsort(compare_movies, Movies, SortedMovies).
+
+% Comparison predicate for sorting movies
+compare_movies(Order, [_, _, _, _, Year1, _, Rating1], [_, _, _, _, Year2, _, Rating2]) :-
+    (Rating1 > Rating2 -> Order = '<'
+    ; Rating1 < Rating2 -> Order = '>'
+    ; Year1 > Year2 -> Order = '<'
+    ; Year1 < Year2 -> Order = '>'
+    ; Order = '='
+    ).

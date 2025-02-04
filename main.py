@@ -41,6 +41,7 @@ def search_movies():
     except Exception as e:
         print(e)
         messagebox.showerror("Error", str(e))
+
 def add_to_favorites():
     title = favorite_entry.get()
     query = "add_to_favorites('{}')".format(title)
@@ -50,6 +51,18 @@ def add_to_favorites():
             update_favorite_list()
         else:
             messagebox.showerror("Error", "Movie not found or already in favorites.")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+def remove_from_favorites():
+    title = favorite_entry.get()
+    query = "remove_from_favorites('{}')".format(title)
+    try:
+        result = query_prolog(query)
+        if result:
+            update_favorite_list()
+        else:
+            messagebox.showerror("Error", "Movie not found in favorites.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
@@ -118,20 +131,24 @@ search_button = tk.Button(root, text="Search", command=search_movies)
 search_button.grid(row=7, column=0, columnspan=2)
 
 # Create and place the text area for results
-result_text = tk.Text(root, height=10, width=150)
+result_text = tk.Text(root, height=5, width=200)
 result_text.grid(row=8, column=0, columnspan=2)
 
 # Create and place the input field and label for adding to favorites
-tk.Label(root, text="Add to Favorites:").grid(row=9, column=0)
+tk.Label(root, text="Add/Remove from Favorites:").grid(row=9, column=0)
 favorite_entry = tk.Entry(root)
 favorite_entry.grid(row=9, column=1)
 
 # Create and place the add to favorites button
 add_button = tk.Button(root, text="Add", command=add_to_favorites)
-add_button.grid(row=10, column=0, columnspan=2)
+add_button.grid(row=10, column=0)
+
+# Create and place the remove from favorites button
+remove_button = tk.Button(root, text="Remove", command=remove_from_favorites)
+remove_button.grid(row=10, column=1)
 
 # Create and place the text area for favorite movies
-favorite_text = tk.Text(root, height=10, width=150)
+favorite_text = tk.Text(root, height=5, width=200)
 favorite_text.grid(row=11, column=0, columnspan=2)
 
 # Create and place the recommend button
@@ -139,7 +156,7 @@ recommend_button = tk.Button(root, text="Recommend", command=recommend_movies)
 recommend_button.grid(row=12, column=0, columnspan=2)
 
 # Create and place the text area for recommendations
-recommendation_text = tk.Text(root, height=10, width=150)
+recommendation_text = tk.Text(root, height=10, width=200)
 recommendation_text.grid(row=13, column=0, columnspan=2)
 
 # Run the main loop
