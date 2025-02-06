@@ -1000,35 +1000,33 @@ movie('Search Party', 'Adventure', 'Scot Armstrong', 'Adam Pally', 2014, 93, 5.6
 movie('Nine Lives', 'Comedy', 'Barry Sonnenfeld', 'Kevin Spacey', 2016, 87, 5.3).
 
 
-% Regla para encontrar películas por género
+
 peliculas_por_genero(Genero, Peliculas) :-
     findall(Titulo, (movie(Titulo, Genero, _, _, _, _, _)), Peliculas).
 
-% Regla para encontrar películas por actor
+
 peliculas_por_actor(Actor, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, _, Actor, _, _, _)), Peliculas).
 
-% Regla para encontrar películas por director
+
 peliculas_por_director(Director, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, Director, _, _, _, _)), Peliculas).
 
-% Regla para encontrar películas por año
+
 peliculas_por_ano(Year, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, _, _, Year, _, _)), Peliculas).
 
-% Regla para encontrar películas por duración
+
 peliculas_por_duracion(Duration, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, _, _, _, Duration, _)), Peliculas).
 
-% Regla para encontrar películas por calificación
 peliculas_por_calificacion(Rating, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, _, _, _, _, Rating)), Peliculas).
 
-% Regla para encontrar películas por título
+
 peliculas_por_titulo(Titulo, Peliculas) :-
     findall(Titulo, (movie(Titulo, _, _, _, _, _, _)), Peliculas).
 
-% Regla para encontrar películas que cumplan todas las condiciones opcionales
 peliculas_por_condiciones(Titulo, Genero, Director, Actor, Year, Duration, Rating, Peliculas) :-
     findall([TituloP, GeneroP, DirectorP, ActorP, YearP, DurationP, RatingP], (
         movie(TituloP, GeneroP, DirectorP, ActorP, YearP, DurationP, RatingP),
@@ -1041,38 +1039,36 @@ peliculas_por_condiciones(Titulo, Genero, Director, Actor, Year, Duration, Ratin
         (Rating == '' ; Rating == RatingP)
     ), Peliculas).
 
-% Dynamic predicate to store favorite movies
+
 :- dynamic favorite_movie/1.
 
-% Rule to add a movie to favorites
+
 add_to_favorites(Title) :-
     movie(Title, _, _, _, _, _, _),
     \+ favorite_movie(Title),
     assertz(favorite_movie(Title)).
 
-% Rule to remove a movie from favorites
+
 remove_from_favorites(Title) :-
     favorite_movie(Title),
     retract(favorite_movie(Title)).
 
-% Rule to get all favorite movies
+
 get_favorite_movies(FavoriteMovies) :-
     findall(Title, favorite_movie(Title), FavoriteMovies).
 
-% Rule to extract genres from favorite movies and include additional genres based on conditions
 extract_genres_from_favorites(Genres) :-
     findall(Genre, (favorite_movie(Title), movie(Title, Genre, _, _, _, _, _)), GenreList),
     include_additional_genres(GenreList, ExtendedGenreList),
     list_to_set(ExtendedGenreList, Genres).
 
-% Helper rule to include additional genres based on conditions
+
 include_additional_genres([], []).
 include_additional_genres([Genre|Rest], [Genre|ExtendedRest]) :-
     additional_genres(Genre, AdditionalGenres),
     include_additional_genres(Rest, RestExtended),
     append(AdditionalGenres, RestExtended, ExtendedRest).
 
-% Define additional genres based on conditions
 additional_genres('Crime', ['Action']).
 additional_genres('Action', ['Crime']).
 additional_genres('Thriller', ['Horror']).
@@ -1084,17 +1080,14 @@ additional_genres('Drama', ['Adventure','Biography']).
 additional_genres(_, []).
 
 
-% Rule to extract actors from favorite movies
 extract_actors_from_favorites(Actors) :-
     findall(Actor, (favorite_movie(Title), movie(Title, _, _, Actor, _, _, _)), ActorList),
     list_to_set(ActorList, Actors).
 
-% Rule to extract directors from favorite movies
 extract_directors_from_favorites(Directors) :-
     findall(Director, (favorite_movie(Title), movie(Title, _, Director, _, _, _, _)), DirectorList),
     list_to_set(DirectorList, Directors).
 
-% Rule to recommend movies based on favorite genres, actors, and directors, excluding favorites
 recommend_movies_based_on_favorites(RecommendedMovies) :-
     extract_genres_from_favorites(Genres),
     extract_actors_from_favorites(Actors),
@@ -1107,11 +1100,11 @@ recommend_movies_based_on_favorites(RecommendedMovies) :-
             Movies),
     sort_movies(Movies, RecommendedMovies).
 
-% Custom sorting predicate to sort by rating and year
+
 sort_movies(Movies, SortedMovies) :-
     predsort(compare_movies, Movies, SortedMovies).
 
-% Comparison predicate for sorting movies
+
 compare_movies(Order, [_, _, _, _, Year1, _, Rating1], [_, _, _, _, Year2, _, Rating2]) :-
     (Rating1 > Rating2 -> Order = '<'
     ; Rating1 < Rating2 -> Order = '>'
