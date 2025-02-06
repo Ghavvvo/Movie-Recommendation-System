@@ -1083,12 +1083,6 @@ additional_genres('Biography', ['Drama']).
 additional_genres('Drama', ['Adventure','Biography']).
 additional_genres(_, []).
 
-% Rule to recommend movies based on favorite genres
-recommend_movies_based_on_genres(RecommendedMovies) :-
-    extract_genres_from_favorites(Genres),
-    findall([Title, Genre, Year, Rating],
-            (movie(Title, Genre, _, _, Year, _, Rating), member(Genre, Genres)),
-            RecommendedMovies).
 
 % Rule to extract actors from favorite movies
 extract_actors_from_favorites(Actors) :-
